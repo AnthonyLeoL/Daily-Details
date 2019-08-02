@@ -40,7 +40,7 @@ li{
 #container {
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
     margin:100px auto;
-    width:33%;
+    width:50%;
     background-color: #f7f7f7;
 }
 input:focus{

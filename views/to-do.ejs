@@ -5,7 +5,10 @@
     <ul>
         <li><span><i class="fa fa-trash"></i></span>click to mark as done!</li>
         <li><span><i class="fa fa-trash"></i></span>hover to show delete button!</li>
-
+        <% todo_list.forEach(function(todo){ %>
+        <li><span><i class="fa fa-trash"></i></span><%= todo.title %>
+            <!-- <%= todo.description.substring(0,15)%> </li> -->
+            <% }) %>
 
     </ul>
 </div>
@@ -38,4 +41,4 @@
         $("input[type='text']").fadeToggle()
     })
 </script>
-<% include partials/header %>
+<% include partials/footer %>
