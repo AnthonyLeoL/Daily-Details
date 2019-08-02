@@ -1,0 +1,8 @@
+<% include partials/header %>
+<div class="container">
+    <h1><%= todo_item.title %></h1>
+    <p><%= todo_item.description %></p>
+    <p><%= todo_item.priority %></p>
+    <p><%= todo_item.date_created.toDateString() %></p>
+</div>
+<% include partials/footer %>

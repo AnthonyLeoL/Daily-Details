@@ -30,7 +30,7 @@ var data = [
 
 function seedDB () {
   // Remove all campgrounds
-  Todo.remove({}, function (err) {
+  Todo.deleteMany({}, function (err) {
     if (err) {
       console.log(err)
     }
