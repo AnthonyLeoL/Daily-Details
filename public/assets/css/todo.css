@@ -36,7 +36,9 @@ li{
     line-height: 40px;
     color:#666;
 }
-
+.add_new{
+    color:white;
+}
 #container {
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
     margin:100px auto;

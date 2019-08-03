@@ -1,0 +1,50 @@
+<% include partials/header %>
+<div id="container">
+    <h1>To-Do List <span id="toggle-form"> <a class="add_new" href="to-do/new"><i class="fa fa-plus"></i></a></span>
+    </h1>
+    <input type="text" placeholder="Add a todo">
+    <ul>
+        <li><span><i class="fa fa-trash"></i></span>click to mark as done!</li>
+        <li><span><i class="fa fa-trash"></i></span>hover to show delete button!</li>
+        <% todo_list.forEach(function(todo){ %>
+        <li><span>
+                <form action="/to-do/<%= todo._id %>?_method=DELETE" method="POST"><button><i
+                            class="fa fa-trash"></i></button></form>
+            </span><%= todo.title %>
+            <a href="/to-do/<%= todo._id %>"><i class="fa fa-info-circle float-right"></i></a>
+        </li>
+        <!-- <%= todo.description.substring(0,15)%> </li> -->
+        <% }) %>
+
+    </ul>
+</div>
+<script>
+    $('ul').on('click', 'li', function () {
+        $(this).toggleClass('completed')
+    })
+
+    $('ul').on('click', 'span', function (event) {
+        $(this)
+            .parent()
+            .fadeOut(500, function () {
+                $(this).remove()
+            })
+        event.stopPropagation()
+    })
+
+    $("input[type='text']").keypress(function (event) {
+        if (event.which === 13) {
+            let todoText = $(this).val()
+
+            $('ul').append(
+                '<li>' + '<span><i class="fa fa-trash"></i></span> ' + todoText + '</li>'
+            )
+            $(this).val('')
+        }
+    })
+
+    // $('#toggle-form').click(function () {
+    //     $("input[type='text']").fadeToggle()
+    // })
+</script>
+<% include partials/footer %>
