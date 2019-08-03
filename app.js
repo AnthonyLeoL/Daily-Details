@@ -70,7 +70,7 @@ app.put('/to-do/:id', function (req, res) {
     res.redirect('/to-do')
   })
 })
-// // DESTROY
+// DESTROY
 app.delete('/to-do/:id', function (req, res) {
   Todo.findByIdAndRemove(req.params.id, function (err) {
     if (err) {

@@ -4,13 +4,16 @@
     </h1>
     <form id="quickAdd" action="/to-do" method="POST">
         <input type="text" name="new[title]" placeholder="quick add!">
-        <button style="display: none;" id="quickBtn" class="float-right"></button>
+        <button style="display: none;" id="quickBtn"></button>
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
-        <li><span>
-                <form action="/to-do/<%= todo._id %>?_method=DELETE" method="POST"><button><i
-                            class="fa fa-trash"></i></button></form>
+        <li id="itemMarker">
+            <span id="quickDel">
+                <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST">
+                    <i class="fa fa-trash"></i>
+                    <button style="display: none;" id="quickDelBtn"></button>
+                </form>
             </span><%= todo.title %>
             <a href="/to-do/<%= todo._id %>"><i class="fa fa-info-circle float-right"></i></a>
         </li>
@@ -20,8 +23,7 @@
     </ul>
 </div>
 <script>
-
-    $('ul').on('click', 'li', function () {
+    $('ul').on('click', '#itemMarker', function () {
         $(this).toggleClass('completed')
     })
 
@@ -30,10 +32,15 @@
             .parent()
             .fadeOut(500, function () {
                 $(this).remove()
+                $("#quickDelBtn").click()
             })
+
         event.stopPropagation()
     })
 
+    // $("#quickDel").on('click', function (event) {
+
+    // })
     $("#quickAdd").keypress(function (event) {
         if (event.which === 13) {
             event.preventDefault()
