@@ -11,7 +11,7 @@ app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
-// seedDB()
+seedDB()
 mongoose.connect(
   'mongodb://localhost:27017/todo',
   { useNewUrlParser: true }

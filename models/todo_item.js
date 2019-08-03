@@ -1,10 +1,5 @@
 var mongoose = require('mongoose')
 
-var priority_level = {
-  MUST: 3,
-  SHOULD: 2,
-  WOULD_BE: 1
-}
 var todo_item = new mongoose.Schema({
   title: String,
   description: String,
