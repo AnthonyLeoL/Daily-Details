@@ -9,11 +9,15 @@ var Todo = require('./models/todo_item')
 
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 // seedDB()
 mongoose.connect(
   'mongodb://localhost:27017/todo',
   { useNewUrlParser: true }
 )
+mongoose.set('useFindAndModify', false)
+
 // LANDING PAGE
 app.get('/', function (req, res) {
   res.render('landing')
@@ -25,31 +29,56 @@ app.get('/to-do', function (req, res) {
       console.log(err)
       res.redirect('/')
     } else {
-      res.render('to-do', { todo_list: todo_list })
+      res.render('index', { todo_list: todo_list })
     }
   })
 })
 
-// SHOW FORM
+// NEW
 app.get('/to-do/new', function (req, res) {
   res.render('new')
 })
-// CREATE NEW TODO
+// CREATE
 app.post('/to-do', function (req, res) {
-  res.send('make a new todo')
+  Todo.create(req.body.new, function (err, newTodo) {
+    if (err) {
+      console.log(err)
+    }
+    res.redirect('/to-do')
+  })
 })
-// SHOW EDIT FOR ONE PARTICULAR TODO
+// EDIT
 app.get('/to-do/:id/edit', function (req, res) {
-  res.send('make a new todo')
+  Todo.findById(req.params.id, function (err, todo_item) {
+    if (err) {
+      console.log(err)
+      res.redirect('/to-do')
+    } else {
+      res.render('edit', { todo_item: todo_item })
+    }
+  })
 })
-// UPDATE TODO, REDIRECT BACK TO /TO-DO
-// app.PUT('/to-do/:id', function (req, res) {
-//   res.send('make a new todo')
-// })
+// UPDATE
+app.put('/to-do/:id', function (req, res) {
+  Todo.findByIdAndUpdate(req.params.id, req.body.new, function (
+    err,
+    updatedTodo
+  ) {
+    if (err) {
+      console.log(err)
+    }
+    res.redirect('/to-do')
+  })
+})
 // // DESTROY
-// app.DELETE('/to-do/:id', function (req, res) {
-//   res.send('make a new todo')
-// })
+app.delete('/to-do/:id', function (req, res) {
+  Todo.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    res.redirect('/to-do')
+  })
+})
 // SHOW
 app.get('/to-do/:id', function (req, res) {
   Todo.findById(req.params.id, function (err, todo_item) {

@@ -8,7 +8,7 @@ var priority_level = {
 var todo_item = new mongoose.Schema({
   title: String,
   description: String,
-  priority: Number,
+  priority: String,
   date_created: { type: Date, default: Date.now },
   comments: []
 })

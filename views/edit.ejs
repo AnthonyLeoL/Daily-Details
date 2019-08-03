@@ -1,0 +1,14 @@
+<% include partials/header %>
+<h2>Edit a todo</h2>
+<form class="container" action="/to-do/<%= todo_item._id %>?_method=PUT" method="POST">
+    <input type="text" name="new[title]" value="<%= todo_item.title %>">
+    <textarea name="new[description]"><%= todo_item.description %></textarea>
+
+    <input type="radio" name="new[priority]"> Must Do
+    <input type="radio" name="new[priority]"> Should Do
+    <input type="radio" name="new[priority]"> Would be nice to do
+
+    <input type="text" name="new[comment]" placeholder="<%= todo_item.comment %>">
+    <button class="btn btn-secondary">Update!</button>
+</form>
+<% include partials/footer %>
