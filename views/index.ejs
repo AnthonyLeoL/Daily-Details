@@ -31,8 +31,8 @@
         $(this)
             .parent()
             .fadeOut(500, function () {
+                $(this).find("button").click()
                 $(this).remove()
-                $("#quickDelBtn").click()
             })
 
         event.stopPropagation()
