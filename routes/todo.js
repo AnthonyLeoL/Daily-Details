@@ -1,16 +1,26 @@
 var express = require('express')
 var router = express.Router()
-var Todo = require('../models/todo_item')
+var Todo = require('../models/todo')
+var User = require('../models/user')
+var mongoose = require('mongoose')
 // INDEX (rename)
 router.get('/', function (req, res) {
-  Todo.find({}, function (err, todo_list) {
-    if (err) {
-      console.log(err)
-      res.redirect('/to-do')
-    } else {
-      res.render('index', { todo_list: todo_list })
-    }
-  })
+  var userId
+  if (!req.user) {
+    userId = mongoose.Types.ObjectId('5d475e4d4a0ba6c68165c375')
+  } else {
+    userId = req.user._id
+  }
+  User.findById(userId)
+    .populate('todo')
+    .exec(function (err, user) {
+      if (err) {
+        console.log(err)
+        res.redirect('/to-do')
+      } else {
+        res.render('index', { todo_list: user.todo })
+      }
+    })
 })
 
 // NEW
@@ -19,11 +29,15 @@ router.get('/new', function (req, res) {
 })
 // CREATE
 router.post('/', isLoggedIn, function (req, res) {
-  Todo.create(req.body.new, function (err, newTodo) {
-    if (err) {
-      console.log(err)
-    }
-    res.redirect('/to-do')
+  User.findById(req.user._id, function (err, user) {
+    Todo.create(req.body.new, function (err, newTodo) {
+      if (err) {
+        console.log(err)
+      }
+      user.todo.push(newTodo)
+      user.save()
+      res.redirect('/to-do')
+    })
   })
 })
 // EDIT

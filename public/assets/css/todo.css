@@ -61,13 +61,13 @@ input:focus{
 li:nth-child(2n){
     background-color: #f7f7f7;    
 }
-.MUST{
+.Must{
     color:red;
 }
-.SHOULD{
+.Should{
     color:orange;
 }
-.WOULD{
+.Would{
     color:green;
 }
 

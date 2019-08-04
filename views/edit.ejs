@@ -4,10 +4,10 @@
     <input type="text" name="new[title]" value="<%= todo_item.title %>">
     <textarea name="new[description]"><%= todo_item.description %></textarea>
 
-    <select>
-        <option>Must</option>
-        <option>Should</option>
-        <option>Would</option>
+    <select name="new[priority]">
+        <option>Must do</option>
+        <option>Should do </option>
+        <option>Would be nice</option>
     </select>
     <button class="btn btn-secondary">Update!</button>
 </form>

@@ -10,6 +10,7 @@
         <% todo_list.forEach(function(todo){ %>
         <li id="itemMarker">
             <span id="quickDel">
+
                 <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST">
                     <i class="fa fa-trash"></i>
                     <button style="display: none;" id="quickDelBtn"></button>
