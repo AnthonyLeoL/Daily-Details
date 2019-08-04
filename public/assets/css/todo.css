@@ -61,8 +61,17 @@ input:focus{
 li:nth-child(2n){
     background-color: #f7f7f7;    
 }
+.MUST{
+    color:red;
+}
+.SHOULD{
+    color:orange;
+}
+.WOULD{
+    color:green;
+}
 
-li span{
+#itemMarker #quickDel{
     background-color: #e74c3c;
     height:40px;
     margin-right:20px;
@@ -73,7 +82,7 @@ li span{
     transition: 0.2s linear;
     opacity:0;
 }
-li:hover span{
+#itemMarker:hover #quickDel{
     width:40px;
     opacity:1.0;
 }
