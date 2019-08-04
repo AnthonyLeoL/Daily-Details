@@ -4,9 +4,11 @@
     <input type="text" name="new[title]" value="<%= todo_item.title %>">
     <textarea name="new[description]"><%= todo_item.description %></textarea>
 
-    <input type="radio" name="new[priority]"> Must Do
-    <input type="radio" name="new[priority]"> Should Do
-    <input type="radio" name="new[priority]"> Would be nice to do
+    <select>
+        <option>Must Do</option>
+        <option>Should Do</option>
+        <option>Would Be Nice to Do</option>
+    </select>
 
     <input type="text" name="new[comment]" placeholder="<%= todo_item.comment %>">
     <button class="btn btn-secondary">Update!</button>
