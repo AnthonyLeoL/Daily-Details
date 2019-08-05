@@ -1,9 +1,42 @@
 <% include partials/header %>
-<h1>Register here!</h1>
-<form action="/register" method="POST">
-    <input required="true" type="Text" name="username" placeholder="username">
-    <input required="true" type="Text" name="password" placeholder="password">
-    <button>Sign up!</button>
+
+<script>
+    function checkPassword(form) {
+        password1 = form.password1.value;
+        password2 = form.password2.value;
+
+        // If Not same return False.     
+        if (password1.length < 8) {
+            alert("\nPassword must be at least 8 characters long: please try again")
+            return false
+        } else if (password1 != password2) {
+            alert("\nPassword did not match: Please try again...")
+            return false;
+        }
+
+        return true;
+    } 
+</script>
+
+<form onSubmit="return checkPassword(this)" class="auth" action="/register" method="POST">
+    <h1 class="text-light">Register here!</h1>
+
+    <div class="form-group">
+        <label for="InputEmail1">Email address</label>
+        <input type="email" name="new[username]" required class="form-control" id="InputEmail"
+            aria-describedby="emailHelp" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="password1">Password</label>
+        <input required name="new[password]" type="password" class="form-control" id="password1" placeholder="Password">
+
+        <label for="password2">Confirm Password</label>
+        <input required type="password" class="form-control" id="password2" placeholder=" Retype Password">
+        <small>password must be at least 8 characters</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
 
 <% include partials/footer %>

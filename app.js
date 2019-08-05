@@ -8,7 +8,7 @@ var seedDB = require('./seeds')
 var passport = require('passport')
 var localStrategy = require('passport-local')
 
-var Todo = require('./models/todo_item')
+var Todo = require('./models/todo')
 var User = require('./models/user')
 
 var indexRoutes = require('./routes/index')
@@ -19,7 +19,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-seedDB()
+// seedDB()
 
 mongoose.connect(
   'mongodb://localhost:27017/todo',

@@ -1,12 +1,13 @@
 <% include partials/header %>
-<div class="container">
-    <h1><%= todo_item.title %></h1>
-    <p><%= todo_item.description %></p>
-    <p><%= todo_item.priority %></p>
-    <p><%= todo_item.date_created.toDateString() %></p>
-    <a href="/to-do/<%= todo_item._id %>/edit" class="btn btn-primary">Edit</a>
-    <form id="delete" action="/to-do/<%= todo_item._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-danger">Delete</button>
+<div id="container " class="container displayInfo">
+    <h1>Title: <span class="title"><%= todo_item.title %></span></h1>
+    <hr />
+    <p>Description: <span class="title"><%= todo_item.description %></span> </p>
+    <p>Priority:<span class="title"> <%= todo_item.priority %></span></p>
+    <p>Date created:<span class="title"> <%= todo_item.date_created.toDateString() %></span></p>
+    <a href="/to-do/<%= todo_item._id %>/edit" class="btn btn-outline-primary">Edit</a>
+    <form class="btnGrp" id="delete" action="/to-do/<%= todo_item._id %>?_method=DELETE" method="POST">
+        <button class="btn btn-outline-danger">Delete</button>
     </form>
 </div>
 <% include partials/footer %>
