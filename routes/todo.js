@@ -7,7 +7,7 @@ var mongoose = require('mongoose')
 router.get('/', function (req, res) {
   var userId
   if (!req.user) {
-    userId = mongoose.Types.ObjectId('5d475e4d4a0ba6c68165c375')
+    userId = mongoose.Types.ObjectId('5d488c6171068bca816670c9')
   } else {
     userId = req.user._id
   }
@@ -33,9 +33,10 @@ router.post('/', isLoggedIn, function (req, res) {
     Todo.create(req.body.new, function (err, newTodo) {
       if (err) {
         console.log(err)
+      } else {
+        user.todo.push(newTodo)
+        user.save()
       }
-      user.todo.push(newTodo)
-      user.save()
       res.redirect('/to-do')
     })
   })

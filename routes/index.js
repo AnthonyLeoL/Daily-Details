@@ -5,7 +5,7 @@ var passport = require('passport')
 
 // LANDING PAGE
 router.get('/', function (req, res) {
-  res.render('landing')
+  res.redirect('/to-do')
 })
 
 // AUTH ROUTES

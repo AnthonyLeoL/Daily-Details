@@ -1,14 +1,15 @@
 <% include partials/header %>
 <div id="container">
-    <h1>To-Do List <span id="toggle-form"> <a class="add_new" href="to-do/new"><i class="fa fa-plus"></i></a></span>
+    <h1 class="header">To-Do List <span id="toggle-form"> <a class="add_new" href="to-do/new"><i
+                    class="fa fa-plus"></i></a></span>
     </h1>
     <form id="quickAdd" action="/to-do" method="POST">
-        <input type="text" name="new[title]" placeholder="quick add!">
+        <input class="quickInput" type="text" name="new[title]" placeholder="quick add!">
         <button style="display: none;" id="quickBtn"></button>
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
-        <li id="itemMarker">
+        <li id="itemMarker" class="<% todo.completed %>">
             <span id="quickDel">
 
                 <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST">
@@ -21,12 +22,26 @@
         </li>
         <!-- <%= //todo.description.substring(0,15)%> </li> -->
         <% }) %>
-
     </ul>
+    <button class="float-right" id="hideBtn">hide completed</button>
+
 </div>
 <script>
+    var showing = true;
+    $('#hideBtn').on("click", function () {
+        $('.completed').toggleClass("hide")
+        if (showing) {
+            $(this).html("show completed")
+        } else {
+            $(this).html("hide completed")
+        }
+        showing = !showing
+    })
     $('ul').on('click', '#itemMarker', function () {
         $(this).toggleClass('completed')
+        if (!showing) {
+            $(this).toggleClass('hide')
+        }
     })
 
     $('ul').on('click', '#quickDel', function (event) {
