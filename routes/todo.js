@@ -3,6 +3,8 @@ var router = express.Router()
 var Todo = require('../models/todo')
 var User = require('../models/user')
 var mongoose = require('mongoose')
+var middleware = require('../middleware')
+
 // INDEX (rename)
 router.get('/', function (req, res) {
   var userId
@@ -28,7 +30,7 @@ router.get('/new', function (req, res) {
   res.render('new')
 })
 // CREATE
-router.post('/', isLoggedIn, function (req, res) {
+router.post('/', middleware.isLoggedIn, function (req, res) {
   User.findById(req.user._id, function (err, user) {
     Todo.create(req.body.new, function (err, newTodo) {
       if (err) {
@@ -52,6 +54,7 @@ router.get('/:id/edit', function (req, res) {
     }
   })
 })
+
 // UPDATE
 router.put('/:id', function (req, res) {
   Todo.findByIdAndUpdate(req.params.id, req.body.new, function (
@@ -60,7 +63,25 @@ router.put('/:id', function (req, res) {
   ) {
     if (err) {
       console.log(err)
+      req.flash('error', err.message)
     }
+    res.redirect('/to-do')
+  })
+})
+router.put('/:id/complete', function (req, res) {
+  Todo.findById(req.params.id, function (err, updatedTodo) {
+    if (err) {
+      console.log(err)
+      req.flash('error', err.message)
+    } else {
+      if (updatedTodo.completed) {
+        updatedTodo.completed = ''
+      } else {
+        updatedTodo.completed = 'completed'
+      }
+      updatedTodo.save()
+    }
+
     res.redirect('/to-do')
   })
 })
@@ -84,12 +105,5 @@ router.get('/:id', function (req, res) {
     }
   })
 })
-
-function isLoggedIn (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.redirect('/login')
-}
 
 module.exports = router

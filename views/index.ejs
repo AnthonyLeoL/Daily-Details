@@ -9,27 +9,42 @@
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
-        <li id="itemMarker" class="<% todo.completed %>">
-            <span id="quickDel">
-
-                <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST">
-                    <i class="fa fa-trash"></i>
-                    <button style="display: none;" id="quickDelBtn"></button>
-                </form>
+        <li class="<%= todo.completed %>">
+            <span id="itemMarker">
+                <span id="mark">
+                    <form id="markForm" action="/to-do/<%= todo._id %>/complete?_method=PUT" method="POST">
+                        <i class="fa fa-check"></i>
+                    </form>
+                </span>
+                <span class="<%= todo.priority %>">
+                    <a id="info" class="info <%= todo.completed %>" href="/to-do/<%= todo._id %>">
+                        <%= todo.title %>
+                    </a>
+                </span>
             </span>
-            <span class="<%= todo.priority %>"><%= todo.title %></span>
-            <a href="/to-do/<%= todo._id %>"><i class="fa fa-info-circle float-right"></i></a>
+            <span>
+                <i id="trash" class="fa fa-trash Must float-right mt-2 mr-2"></i>
+                <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST"></form>
+            </span>
         </li>
-        <!-- <%= //todo.description.substring(0,15)%> </li> -->
+
+
         <% }) %>
     </ul>
-    <button class="float-right" id="hideBtn">hide completed</button>
+    <button class="btn btn-primary float-right" id="hideBtn">hide completed</button>
 
 </div>
 <script>
+
     var showing = true;
+    $("ul").on('click', '#trash', function () {
+        // alert("clickity")
+        $(this).parent().find("#delete").trigger("submit")
+    })
     $('#hideBtn').on("click", function () {
-        $('.completed').toggleClass("hide")
+        $('.completed').fadeToggle(400, function () {
+            $(this).toggleClass("hide")
+        })
         if (showing) {
             $(this).html("show completed")
         } else {
@@ -38,19 +53,25 @@
         showing = !showing
     })
     $('ul').on('click', '#itemMarker', function () {
-        $(this).toggleClass('completed')
-        if (!showing) {
-            $(this).toggleClass('hide')
-        }
+        $(this).find("#info")[0].click()
     })
 
-    $('ul').on('click', '#quickDel', function (event) {
-        $(this)
-            .parent()
-            .fadeOut(500, function () {
-                $(this).find("button").click() //submit form to delete
-                $(this).remove()
+    $('ul').on('click', '#mark', function (event) {
+        $(this).parent().toggleClass('completed')
+        if (!showing) {
+            $(this).fadeToggle(400, function () {
+                $(this).toggleClass('hide')
             })
+        }
+        $(this).find('#markForm').trigger("submit")
+
+
+        // $(this)
+        //     .parent()
+        //     .fadeOut(500, function () {
+        //         $(this).find("button").click() //submit form to delete
+        //         $(this).remove()
+        //     })
 
         event.stopPropagation()
     })
