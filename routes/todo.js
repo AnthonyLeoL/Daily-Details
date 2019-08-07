@@ -85,11 +85,22 @@ router.put('/:id/complete', function (req, res) {
   })
 })
 // DESTROY
-router.delete('/:id', function (req, res) {
-  Todo.findByIdAndRemove(req.params.id, function (err) {
+router.delete('/:id', middleware.isLoggedIn, function (req, res) {
+  User.findById(req.user._id, function (err, user) {
     if (err) {
       console.log(err)
+      req.flash('error', err.message)
+    } else {
+      user.todo.remove(req.params.id)
+      Todo.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+          console.log(err)
+          req.flash('error', err.message)
+          res.redirect('/to-do')
+        }
+      })
     }
+    req.flash('success', 'deleted todo!')
     res.redirect('/to-do')
   })
 })
