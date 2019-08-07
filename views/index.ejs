@@ -3,9 +3,9 @@
     <h1 class="header">To-Do List <span id="toggle-form"> <a class="add_new" href="to-do/new"><i
                     class="fa fa-plus"></i></a></span>
     </h1>
-    <form id="quickAdd" action="/to-do" method="POST">
-        <input class="quickInput" type="text" name="new[title]" placeholder="quick add!">
-        <button style="display: none;" id="quickBtn"></button>
+    <form id="quickAdd" style="display: inline" action="/to-do" method="POST">
+        <input required class="quickInput" type="text" name="new[title]" placeholder="quick add">
+        <button class="btn btn-primary" id="quickBtn">Add!</button>
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
@@ -51,11 +51,6 @@
         $('.completed').fadeToggle(400, function () {
             $(this).toggleClass("hide")
         })
-        // if (showing) {
-        //     $("#hideBtn").html("show completed")
-        // } else {
-        //     $("#hideBtn").html("hide completed")
-        // }
         showing = !showing
     })
     $('ul').on('click', '#itemMarker', function () {
