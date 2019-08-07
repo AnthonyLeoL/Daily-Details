@@ -34,6 +34,22 @@ router.post('/register', function (req, res) {
 router.get('/login', function (req, res) {
   res.render('login')
 })
+router.put('/:id', function (req, res) {
+  User.findById(req.params.id, function (err, updatedUser) {
+    if (err) {
+      console.log(err)
+      req.flash('error', err.message)
+    } else {
+      if (!updatedUser.showCompleted) {
+        updatedUser.showCompleted = 'hide'
+      } else {
+        updatedUser.showCompleted = ''
+      }
+      updatedUser.save()
+    }
+    res.redirect('/to-do')
+  })
+})
 
 router.post(
   '/login',

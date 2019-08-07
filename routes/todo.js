@@ -9,7 +9,7 @@ var middleware = require('../middleware')
 router.get('/', function (req, res) {
   var userId
   if (!req.user) {
-    userId = mongoose.Types.ObjectId('5d488c6171068bca816670c9')
+    userId = mongoose.Types.ObjectId('5d4a3b374cbb011690971c37')
   } else {
     userId = req.user._id
   }
@@ -74,14 +74,13 @@ router.put('/:id/complete', function (req, res) {
       console.log(err)
       req.flash('error', err.message)
     } else {
-      if (updatedTodo.completed) {
-        updatedTodo.completed = ''
-      } else {
+      if (!updatedTodo.completed) {
         updatedTodo.completed = 'completed'
+      } else {
+        updatedTodo.completed = ''
       }
       updatedTodo.save()
     }
-
     res.redirect('/to-do')
   })
 })

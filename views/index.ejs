@@ -9,7 +9,11 @@
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
+        <% if(currentUser && todo.completed){ %>
+        <li class="<%= todo.completed %> <%= currentUser.showCompleted %>">
+            <% } else { %>
         <li class="<%= todo.completed %>">
+            <% } %>
             <span id="itemMarker">
                 <span id="mark">
                     <form id="markForm" action="/to-do/<%= todo._id %>/complete?_method=PUT" method="POST">
@@ -27,29 +31,31 @@
                 <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST"></form>
             </span>
         </li>
-
-
         <% }) %>
     </ul>
-    <button class="btn btn-primary float-right" id="hideBtn">hide completed</button>
-
+    <% if(currentUser) { %>
+    <%  var text = currentUser.showCompleted ? "show" :"hide" %>
+    <form action="/<%= currentUser._id %>?_method=PUT" method="POST" onsubmit="handle(event.preventDefault())">
+        <button class="btn btn-primary float-right" id="hideBtn"><%= text %> completed</button>
+    </form>
+    <% } %>
 </div>
-<script>
 
+<script>
     var showing = true;
+
     $("ul").on('click', '#trash', function () {
-        // alert("clickity")
         $(this).parent().find("#delete").trigger("submit")
     })
     $('#hideBtn').on("click", function () {
         $('.completed').fadeToggle(400, function () {
             $(this).toggleClass("hide")
         })
-        if (showing) {
-            $(this).html("show completed")
-        } else {
-            $(this).html("hide completed")
-        }
+        // if (showing) {
+        //     $("#hideBtn").html("show completed")
+        // } else {
+        //     $("#hideBtn").html("hide completed")
+        // }
         showing = !showing
     })
     $('ul').on('click', '#itemMarker', function () {
@@ -64,18 +70,8 @@
             })
         }
         $(this).find('#markForm').trigger("submit")
-
-
-        // $(this)
-        //     .parent()
-        //     .fadeOut(500, function () {
-        //         $(this).find("button").click() //submit form to delete
-        //         $(this).remove()
-        //     })
-
         event.stopPropagation()
     })
-
 
     $("#quickAdd").keypress(function (event) {
         if (event.which === 13) {
@@ -87,9 +83,5 @@
 
     })
 
-
-    // $('#toggle-form').click(function () {
-    //     $("input[type='text']").fadeToggle()
-    // })
 </script>
 <% include partials/footer %>
