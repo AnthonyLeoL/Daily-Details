@@ -5,7 +5,7 @@ var todo = new mongoose.Schema({
   description: String,
   priority: String,
   date_created: { type: Date, default: Date.now },
-  completed: Boolean
+  completed: { type: String, default: '' }
 })
 
 module.exports = mongoose.model('todo', todo)

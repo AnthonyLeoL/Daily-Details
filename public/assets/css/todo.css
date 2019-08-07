@@ -18,6 +18,12 @@ ul {
     margin:0;
     padding:0;
 }
+#quickBtn{
+    height:100%;
+    width:100%;
+    border-radius: 0;
+    background-color:#2980b9;;
+}
 .quickInput{
     font-size: 18px;
     background-color: #f7f7f7;
@@ -29,14 +35,20 @@ ul {
     color:#2980b9;
     border:3px solid rgba(0, 0, 0, 0);
 }
+.info{
+    color:inherit;
+    text-decoration: none;
+}
 .infoLink{
     padding:5px;
 }
+
 li{
     background-color: white;
     height: 40px;
     line-height: 40px;
     color:#666;
+    width:100%;
 }
 .add_new{
     color:white;
@@ -46,6 +58,14 @@ li{
 }
 .btnGrp{
     display: inline
+}
+#trash {
+
+    transition: transform .2s; /* Animation */
+ 
+  }
+#trash:hover{
+    transform:scale(1.5)
 }
 .displayInfo{
     background:white;
@@ -78,7 +98,9 @@ input:focus{
 .completed{
     color:gray;
     text-decoration: line-through;
+    
 }
+
 .fa-plus{
     float:right;
 }
@@ -97,9 +119,13 @@ li:nth-child(2n){
 .hide{
     display:none;
 }
+#itemMarker{
+    display: inline-block;
+    width: 90%;
+}
 
-#itemMarker #quickDel{
-    background-color: #e74c3c;
+#itemMarker #mark{
+    background-color: green;
     height:40px;
     margin-right:20px;
     text-align:center;
@@ -109,7 +135,7 @@ li:nth-child(2n){
     transition: 0.2s linear;
     opacity:0;
 }
-#itemMarker:hover #quickDel{
+#itemMarker:hover #mark{
     width:40px;
     opacity:1.0;
 }

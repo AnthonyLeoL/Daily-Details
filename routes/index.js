@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var User = require('../models/user')
 var passport = require('passport')
+var middleware = require('../middleware/index')
 
 // LANDING PAGE
 router.get('/', function (req, res) {
@@ -17,9 +18,14 @@ router.post('/register', function (req, res) {
   User.register(newUser, req.body.password, function (err, user) {
     if (err) {
       console.log(err)
-      return res.render('register')
+      req.flash('error', err.message)
+      return res.redirect('register')
     }
     passport.authenticate('local')(req, res, function () {
+      req.flash(
+        'success',
+        'welcome to DailyDetails, ' + req.body.username + '!'
+      )
       res.redirect('/to-do')
     })
   })
@@ -28,12 +34,30 @@ router.post('/register', function (req, res) {
 router.get('/login', function (req, res) {
   res.render('login')
 })
+router.put('/:id', function (req, res) {
+  User.findById(req.params.id, function (err, updatedUser) {
+    if (err) {
+      console.log(err)
+      req.flash('error', err.message)
+    } else {
+      if (!updatedUser.showCompleted) {
+        updatedUser.showCompleted = 'hide'
+      } else {
+        updatedUser.showCompleted = ''
+      }
+      updatedUser.save()
+    }
+    res.redirect('/to-do')
+  })
+})
+
 router.post(
   '/login',
   passport.authenticate('local', {
     successRedirect: '/to-do',
-    failureRedirect: '/login'
-    // ,failureMessage: 'incorrect username or password'
+    failureRedirect: '/login',
+    failureFlash: 'incorrect username or password',
+    successFlash: 'Welcome Back!'
   }),
   function (req, res) {}
 )
@@ -42,12 +66,5 @@ router.get('/logout', function (req, res) {
   req.logout()
   res.redirect('/')
 })
-
-function isLoggedIn (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.redirect('/login')
-}
 
 module.exports = router
