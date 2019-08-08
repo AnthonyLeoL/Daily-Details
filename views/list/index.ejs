@@ -1,0 +1,78 @@
+<% include ../partials/header %>
+<div id="container">
+    <h1 class="header">To-Do List <span id="toggle-form"> <a class="add_new" href="to-do/new"><i
+                    class="fa fa-plus"></i></a></span>
+    </h1>
+    <form id="quickAdd" style="display: inline" action="/to-do" method="POST">
+        <input maxlength="40" required class="quickInput" type="text" name="new[title]" placeholder="quick add">
+        <button class="btn btn-primary" id="quickBtn">Add!</button>
+    </form>
+    <ul>
+        <% todo_list.forEach(function(todo){ %>
+        <li class="todoList <%= todo.completed %> <%= currentUser.showCompleted %>">
+            <span id="itemMarker">
+                <span id="mark">
+                    <form id="markForm" action="/to-do/<%= todo._id %>/complete?_method=PUT" method="POST">
+                        <i class="fa fa-check"></i>
+                    </form>
+                </span>
+                <span class="<%= todo.priority %>">
+                    <a id="info" class="info <%= todo.completed %>" href="/to-do/<%= todo._id %>">
+                        <%= todo.title %>
+                    </a>
+                </span>
+            </span>
+            <span>
+                <i id="trash" class="fa fa-trash Must float-right mt-2 mr-2"></i>
+                <form id="delete" action="/to-do/<%= todo._id %>?_method=DELETE" method="POST"></form>
+            </span>
+        </li>
+        <% }) %>
+    </ul>
+    <% if(currentUser) { %>
+    <%  var text = currentUser.showCompleted ? "show" :"hide" %>
+    <form action="/<%= currentUser._id %>?_method=PUT" method="POST" onsubmit="handle(event.preventDefault())">
+        <button class="btn btn-primary float-right" id="hideBtn"><%= text %> completed</button>
+    </form>
+    <% } %>
+</div>
+
+<script>
+    var showing = true;
+
+    $("ul").on('click', '#trash', function () {
+        $(this).parent().find("#delete").trigger("submit")
+    })
+    $('#hideBtn').on("click", function () {
+        $('.completed').fadeToggle(400, function () {
+            $(this).toggleClass("hide")
+        })
+        showing = !showing
+    })
+    $('ul').on('click', '#itemMarker', function () {
+        $(this).find("#info")[0].click()
+    })
+
+    $('ul').on('click', '#mark', function (event) {
+        $(this).parent().toggleClass('completed')
+        if (!showing) {
+            $(this).fadeToggle(400, function () {
+                $(this).toggleClass('hide')
+            })
+        }
+        $(this).find('#markForm').trigger("submit")
+        event.stopPropagation()
+    })
+
+    $("#quickAdd").keypress(function (event) {
+        if (event.which === 13) {
+            event.preventDefault()
+            $("#quickBtn").click()
+            $(this).val('')
+
+        }
+
+    })
+
+</script>
+<% include ../partials/footer %>

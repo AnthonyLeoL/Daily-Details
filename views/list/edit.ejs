@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+
+<form class="container mt-5" action="/to-do/<%= todo_item._id %>?_method=PUT" method="POST">
+    <h2 class="text-light">Edit a todo</h2>
+    <div class="form-group">
+        <input maxlength="70" class="form-control" id="title" type="text" required="true" name="new[title]"
+            value="<%= todo_item.title %>">
+    </div>
+    <div class="form-group">
+        <label class="text-light" for="description">Description</label>
+        <textarea maxlength="1000" id="description" class="form-control"
+            name="new[description]"><%= todo_item.description %></textarea>
+    </div>
+    <div class="form-group">
+        <label for="priority" class="text-light">Add a priority </label>
+        <a href="/#priorities">
+            <i class="fa fa-question-circle infoLink"></i>
+        </a>
+        <br />
+
+        <select value="<% todo_item.priority %>" id="priority" name="new[priority]">
+            <option <%= todo_item.priority == "Must Do" ? "selected" : '' %>> Must Do</option>
+            <option <%= todo_item.priority == "Should Do" ? "selected" : '' %>>Should Do </option>
+            <option <%= todo_item.priority == "Would be Nice to Do" ? "selected" : '' %>>Would be Nice to Do</option>
+            <option <%= todo_item.priority == "Whenever" ? "selected" : '' %>>Whenever</option>
+        </select>
+    </div>
+    <button class="btn btn-secondary">Update!</button>
+</form>
+<% include ../partials/footer %>
