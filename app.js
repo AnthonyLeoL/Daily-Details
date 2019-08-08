@@ -4,12 +4,11 @@ var app = express()
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var methodOverride = require('method-override')
-var seedDB = require('./seeds')
 var passport = require('passport')
 var localStrategy = require('passport-local')
 var flash = require('connect-flash')
 
-var Todo = require('./models/todo')
+// var Todo = require('./models/todo')
 var User = require('./models/user')
 
 var indexRoutes = require('./routes/index')
@@ -20,8 +19,6 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(flash())
-
-// seedDB()
 
 mongoose.connect(
   'mongodb://localhost:27017/todo',

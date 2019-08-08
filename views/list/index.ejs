@@ -1,19 +1,15 @@
-<% include partials/header %>
+<% include ../partials/header %>
 <div id="container">
     <h1 class="header">To-Do List <span id="toggle-form"> <a class="add_new" href="to-do/new"><i
                     class="fa fa-plus"></i></a></span>
     </h1>
     <form id="quickAdd" style="display: inline" action="/to-do" method="POST">
-        <input required class="quickInput" type="text" name="new[title]" placeholder="quick add">
+        <input maxlength="40" required class="quickInput" type="text" name="new[title]" placeholder="quick add">
         <button class="btn btn-primary" id="quickBtn">Add!</button>
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
-        <% if(currentUser && todo.completed){ %>
-        <li class="<%= todo.completed %> <%= currentUser.showCompleted %>">
-            <% } else { %>
-        <li class="<%= todo.completed %>">
-            <% } %>
+        <li class="todoList <%= todo.completed %> <%= currentUser.showCompleted %>">
             <span id="itemMarker">
                 <span id="mark">
                     <form id="markForm" action="/to-do/<%= todo._id %>/complete?_method=PUT" method="POST">
@@ -79,4 +75,4 @@
     })
 
 </script>
-<% include partials/footer %>
+<% include ../partials/footer %>

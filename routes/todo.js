@@ -7,33 +7,36 @@ var middleware = require('../middleware')
 
 // INDEX (rename)
 router.get('/', function (req, res) {
-  var userId
-  if (!req.user) {
-    userId = mongoose.Types.ObjectId('5d4a3b374cbb011690971c37')
+  if (req.user) {
+    User.findById(req.user._id)
+      .populate('todo')
+      .exec(function (err, user) {
+        if (err) {
+          console.log(err)
+          req.flash(
+            'error',
+            'something went wrong, could not retrieve your account at this time'
+          )
+          res.redirect('/to-do')
+        } else {
+          res.render('list/index', { todo_list: user.todo })
+        }
+      })
   } else {
-    userId = req.user._id
+    res.render('list/index', { todo_list: [] })
   }
-  User.findById(userId)
-    .populate('todo')
-    .exec(function (err, user) {
-      if (err) {
-        console.log(err)
-        res.redirect('/to-do')
-      } else {
-        res.render('index', { todo_list: user.todo })
-      }
-    })
 })
 
 // NEW
 router.get('/new', function (req, res) {
-  res.render('new')
+  res.render('list/new')
 })
 // CREATE
 router.post('/', middleware.isLoggedIn, function (req, res) {
   User.findById(req.user._id, function (err, user) {
     Todo.create(req.body.new, function (err, newTodo) {
       if (err) {
+        req.flash('error', 'something went wrong, could not create to-do item')
         console.log(err)
       } else {
         user.todo.push(newTodo)
@@ -50,7 +53,7 @@ router.get('/:id/edit', function (req, res) {
       console.log(err)
       res.redirect('/to-do')
     } else {
-      res.render('edit', { todo_item: todo_item })
+      res.render('list/edit', { todo_item: todo_item })
     }
   })
 })
@@ -111,7 +114,7 @@ router.get('/:id', function (req, res) {
       console.log(err)
       res.redirect('/to-do')
     } else {
-      res.render('show', { todo_item: todo_item })
+      res.render('list/show', { todo_item: todo_item })
     }
   })
 })

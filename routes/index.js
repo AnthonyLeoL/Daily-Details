@@ -2,25 +2,48 @@ var express = require('express')
 var router = express.Router()
 var User = require('../models/user')
 var passport = require('passport')
+var Todo = require('../models/todo')
 var middleware = require('../middleware/index')
+const minUsernameLength = 5
+const minPasswordLength = 8
 
 // LANDING PAGE
 router.get('/', function (req, res) {
-  res.redirect('/to-do')
+  res.render('user/landing')
 })
 
 // AUTH ROUTES
 router.get('/register', function (req, res) {
-  res.render('register')
+  res.render('user/register')
 })
 router.post('/register', function (req, res) {
+  if (middleware.constraintError(req.body.username, minUsernameLength)) {
+    req.flash(
+      'error',
+      'username must be at least ' + minUsernameLength + ' characters long'
+    )
+    return res.redirect('/register')
+  }
+  if (middleware.constraintError(req.body.password, minUsernameLength)) {
+    req.flash(
+      'error',
+      'password must be at least ' + minPasswordLength + ' characters long'
+    )
+    return res.redirect('/register')
+  }
   var newUser = new User({ username: req.body.username })
   User.register(newUser, req.body.password, function (err, user) {
     if (err) {
       console.log(err)
       req.flash('error', err.message)
-      return res.redirect('register')
+      return res.redirect('/register')
     }
+    Todo.create(middleware.sampleData, function (err, todos) {
+      todos.forEach(function (todo) {
+        user.todo.push(todo)
+      })
+      user.save()
+    })
     passport.authenticate('local')(req, res, function () {
       req.flash(
         'success',
@@ -32,7 +55,7 @@ router.post('/register', function (req, res) {
 })
 
 router.get('/login', function (req, res) {
-  res.render('login')
+  res.render('user/login')
 })
 router.put('/:id', function (req, res) {
   User.findById(req.params.id, function (err, updatedUser) {
@@ -55,7 +78,7 @@ router.post(
   '/login',
   passport.authenticate('local', {
     successRedirect: '/to-do',
-    failureRedirect: '/login',
+    failureRedirect: '/user/login',
     failureFlash: 'incorrect username or password',
     successFlash: 'Welcome Back!'
   }),

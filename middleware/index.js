@@ -6,4 +6,39 @@ middlewareObj.isLoggedIn = function (req, res, next) {
   req.flash('error', 'log in to complete this action')
   res.redirect('/login')
 }
+middlewareObj.constraintError = function (str, length) {
+  if (str.length < length) {
+    return true
+  }
+  return false
+}
+
+middlewareObj.sampleData = [
+  {
+    title: 'Hover to show the complete button!',
+    description: 'you got more info!',
+    priority: 'Would be Nice to Do'
+  },
+  {
+    title: 'click it to mark as done!',
+    description: 'you got more info!',
+    priority: 'Must do'
+  },
+  {
+    title: 'Click the this title (or around it) to get more info',
+    description:
+      'YOU GOT MORE INFO!! Hit back to go back or edit to make changes to this item!',
+    priority: 'Should do'
+  },
+  {
+    title: "Delete by clicking the trash icon (This can't be undone!)",
+    description: 'You can also delete from here!',
+    priority: 'Must do'
+  },
+  {
+    title: 'Type in the quick add bar to make a to-do item with just a title',
+    description: 'You can always edit it later',
+    priority: 'Quick Adds default to "Must Do" priority level'
+  }
+]
 module.exports = middlewareObj
