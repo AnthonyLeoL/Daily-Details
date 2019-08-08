@@ -4,15 +4,15 @@
                     class="fa fa-plus"></i></a></span>
     </h1>
     <form id="quickAdd" style="display: inline" action="/to-do" method="POST">
-        <input required class="quickInput" type="text" name="new[title]" placeholder="quick add">
+        <input maxlength="40" required class="quickInput" type="text" name="new[title]" placeholder="quick add">
         <button class="btn btn-primary" id="quickBtn">Add!</button>
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
         <% if(currentUser && todo.completed){ %>
-        <li class="<%= todo.completed %> <%= currentUser.showCompleted %>">
+        <li class="todoList <%= todo.completed %> <%= currentUser.showCompleted %>">
             <% } else { %>
-        <li class="<%= todo.completed %>">
+        <li class="todoList <%= todo.completed %>">
             <% } %>
             <span id="itemMarker">
                 <span id="mark">

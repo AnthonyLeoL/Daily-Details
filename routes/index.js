@@ -6,7 +6,7 @@ var middleware = require('../middleware/index')
 
 // LANDING PAGE
 router.get('/', function (req, res) {
-  res.redirect('/to-do')
+  res.render('landing')
 })
 
 // AUTH ROUTES

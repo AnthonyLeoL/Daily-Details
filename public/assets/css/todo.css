@@ -43,7 +43,7 @@ ul {
     padding:5px;
 }
 
-li{
+.todoList{
     background-color: white;
     height: 40px;
     line-height: 40px;
@@ -60,9 +60,7 @@ li{
     display: inline
 }
 #trash {
-
     transition: transform .2s; /* Animation */
- 
   }
 #trash:hover{
     transform:scale(1.5)
@@ -74,7 +72,7 @@ li{
     /* margin-top:2%; */
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
     margin:100px auto;
-    width:50%;
+    width:65%;
 
 }
 .auth{
@@ -82,6 +80,18 @@ li{
     justify-content: center;
     align-items: center;
     margin:0 auto;
+}
+.home{
+    box-shadow: 0 0 3px rgba(0, 0, 0, .1);
+    background-color: #f7f7f7;
+    margin:100px auto;
+    width:50%;
+    border: 5px solid steelblue;
+    border-radius:15px;
+    padding:2%;
+    
+
+
 }
 #container {
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
@@ -104,7 +114,7 @@ input:focus{
 .fa-plus{
     float:right;
 }
-li:nth-child(2n){
+.todoList:nth-child(2n){
     background-color: #f7f7f7;    
 }
 .Must{
