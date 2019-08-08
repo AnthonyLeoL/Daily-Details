@@ -20,14 +20,14 @@ middlewareObj.sampleData = [
     priority: 'Would be Nice to Do'
   },
   {
-    title: 'click it to mark as done!',
+    title: 'click the green check to mark as done!',
     description: 'you got more info!',
     priority: 'Must do'
   },
   {
     title: 'Click the this title (or around it) to get more info',
     description:
-      'YOU GOT MORE INFO!! Hit back to go back or edit to make changes to this item!',
+      'Hit back to go back or hit edit to make changes to this item!',
     priority: 'Should do'
   },
   {
@@ -36,7 +36,13 @@ middlewareObj.sampleData = [
     priority: 'Must do'
   },
   {
-    title: 'Type in the quick add bar to make a to-do item with just a title',
+    title:
+      'Type in the quick add bar and then hit "Add" or press enter to make a to-do item',
+    description: 'You can always edit it later',
+    priority: 'Quick Adds default to "Must Do" priority level'
+  },
+  {
+    title: 'Or, press the white cross to make a deatailed item!',
     description: 'You can always edit it later',
     priority: 'Quick Adds default to "Must Do" priority level'
   }
