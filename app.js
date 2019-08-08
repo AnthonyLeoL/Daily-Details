@@ -7,7 +7,6 @@ var methodOverride = require('method-override')
 var passport = require('passport')
 var localStrategy = require('passport-local')
 var flash = require('connect-flash')
-var password = require('./password')
 
 // var Todo = require('./models/todo')
 var User = require('./models/user')
@@ -23,9 +22,7 @@ app.use(flash())
 
 mongoose
   .connect(
-    'mongodb+srv://ant:' +
-      password +
-      '@cluster0-jrq5t.mongodb.net/test?retryWrites=true&w=majority',
+    process.env.DATABASEURL,
     { useNewUrlParser: true, useCreateIndex: true }
   )
   .then(console.log('connected properly'))
