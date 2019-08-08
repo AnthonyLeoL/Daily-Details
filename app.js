@@ -7,6 +7,7 @@ var methodOverride = require('method-override')
 var passport = require('passport')
 var localStrategy = require('passport-local')
 var flash = require('connect-flash')
+var password = require('./password')
 
 // var Todo = require('./models/todo')
 var User = require('./models/user')
@@ -20,10 +21,17 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(flash())
 
-mongoose.connect(
-  'mongodb://localhost:27017/todo',
-  { useNewUrlParser: true }
-)
+mongoose
+  .connect(
+    'mongodb+srv://ant:' +
+      password +
+      '@cluster0-jrq5t.mongodb.net/test?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useCreateIndex: true }
+  )
+  .then(console.log('connected properly'))
+  .catch(err => {
+    console.log('ERR: ' + err.message)
+  })
 mongoose.set('useFindAndModify', false)
 
 // config passport
