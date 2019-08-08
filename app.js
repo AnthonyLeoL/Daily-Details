@@ -48,6 +48,6 @@ app.use(function (req, res, next) {
 })
 app.use(indexRoutes)
 app.use('/to-do', todoRoutes)
-app.listen(process.env.PORT || 4444, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log('online')
 })
