@@ -9,7 +9,11 @@
     </form>
     <ul>
         <% todo_list.forEach(function(todo){ %>
+        <% if(todo.completed){ %>
         <li class="todoList <%= todo.completed %> <%= currentUser.showCompleted %>">
+            <% } else { %>
+        <li class="todoList <%= todo.completed %>">
+            <% } %>
             <span id="itemMarker">
                 <span id="mark">
                     <form id="markForm" action="/to-do/<%= todo._id %>/complete?_method=PUT" method="POST">
