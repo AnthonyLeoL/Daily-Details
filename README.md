@@ -1,4 +1,5 @@
 # Daily-Details, a To Do List with a Purpose
+live at https://dailydetails.herokuapp.com/
 <p> This web app is a to do list built with prioritizing and motivation at the heart of it. The philosphy of Daily-Details is to catorgize everything needed to be done in a day into one of four different levels of priority,
  <ol>
    <li>Must Do Today</li>
